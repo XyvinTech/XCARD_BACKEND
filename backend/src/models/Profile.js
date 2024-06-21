@@ -335,4 +335,4 @@ ProfileSchema.pre('save', async function (next) {
   next();
 });
 
-export default mongoose.model('Profile', ProfileSchema);
+export default mongoose.models.Profile || mongoose.model('Profile', ProfileSchema);;

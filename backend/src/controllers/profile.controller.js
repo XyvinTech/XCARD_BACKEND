@@ -83,8 +83,55 @@ export const deleteProfile = asyncHandler(async (req, res, next) => {
   return res.status(200).send({ success: true, message });
 });
 
+// /**
+//  * @desc    Public User EJS
+//  * @route   GET /api/v1/profile/view/:id
+//  * @access  Public
+//  * @schema  Public
+//  */
+// export const viewProfile = asyncHandler(async (req, res, next) => {
+//   console.log('viewProfile called');
+//   const profile = await Profile.findOneAndUpdate(
+//     { 'card.cardId': req?.params?.id },
+//     { $inc: { visitCount: 1 } }
+//   );
+//   const profileTheme = profile?.card?.theme;
+//   /*
+//   Themes
+
+//     'gold&black',
+//     'white&black',
+//     'violet&green',
+//     'orange&black',
+//     'white&blue',
+//     'blue&black'
+//     'restaturants'
+
+//   */
+
+//   if (profileTheme == 'gold&black') {
+//     res.render('gold-black', { data: profile });
+//   } else if (profileTheme == 'white&black') {
+//     res.render('white-black', { data: profile });
+//   } else if (profileTheme == 'orange&black') {
+//     res.render('orange-black', { data: profile });
+//   } else if (profileTheme == 'white&blue') {
+//     res.render('white-blue', { data: profile });
+//   } else if (profileTheme == 'blue&black') {
+//     res.render('blue-black', { data: profile });
+//   } else if (profileTheme == 'aero&black') {
+//     res.render('sky-blue', { data: profile });
+//   } else if (profileTheme == 'restaturants') {
+//     res.render('sienna', { data: profile });
+//   } else {
+//     res.render('index', { data: profile });
+//   }
+// });
+
+
+
 /**
- * @desc    Public User EJS
+ * @desc    Public User Profile
  * @route   GET /api/v1/profile/view/:id
  * @access  Public
  * @schema  Public
@@ -92,41 +139,20 @@ export const deleteProfile = asyncHandler(async (req, res, next) => {
 export const viewProfile = asyncHandler(async (req, res, next) => {
   console.log('viewProfile called');
   const profile = await Profile.findOneAndUpdate(
-    { 'card.cardId': req?.params?.id },
-    { $inc: { visitCount: 1 } }
+    { 'card.cardId': req.params.id },
+    { $inc: { visitCount: 1 } },
+    { new: true }
   );
-  const profileTheme = profile?.card?.theme;
-  /*
-  Themes
 
-    'gold&black',
-    'white&black',
-    'violet&green',
-    'orange&black',
-    'white&blue',
-    'blue&black'
-    'restaturants'
-
-  */
-
-  if (profileTheme == 'gold&black') {
-    res.render('gold-black', { data: profile });
-  } else if (profileTheme == 'white&black') {
-    res.render('white-black', { data: profile });
-  } else if (profileTheme == 'orange&black') {
-    res.render('orange-black', { data: profile });
-  } else if (profileTheme == 'white&blue') {
-    res.render('white-blue', { data: profile });
-  } else if (profileTheme == 'blue&black') {
-    res.render('blue-black', { data: profile });
-  } else if (profileTheme == 'aero&black') {
-    res.render('sky-blue', { data: profile });
-  } else if (profileTheme == 'restaturants') {
-    res.render('sienna', { data: profile });
-  } else {
-    res.render('index', { data: profile });
+  if (!profile) {
+    return res.status(404).json({ success: false, message: 'Profile not found' });
   }
+
+  res.status(200).json({ success: true, data: profile });
 });
+
+
+
 /**
  * @desc    Public User EJS
  * @route   GET /api/v1/profile/view/:id

@@ -1,4 +1,4 @@
-import asyncHandler from "../middlewares/async.middleware.js";
+import asyncHandler from "./async.middleware.js";
 import jwt from "jsonwebtoken";
 import ErrorResponse from "../utils/error.response.js";
 import User from "../models/User.js";
